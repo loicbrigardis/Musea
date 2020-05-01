@@ -5,6 +5,7 @@ import Orbit from './orbit';
 import Gui from "./gui";
 import vertex from "../shaders/vertex";
 import fragment from "../shaders/fragment";
+import mySwiper from './swiper';
 
 export default class Scene {
   constructor(imagesArray) {
@@ -31,9 +32,7 @@ export default class Scene {
     //this.controls = new Orbit(this.camera, this.renderer.domElement);
     this.clock = new THREE.Clock();
     
-    this.clickStart = 0;
-    this.indexStart = 0;
-    this.isMouseDown = false;
+    this.indexCurrent = 0;
     
     /**
      * Image from DOM
@@ -44,7 +43,7 @@ export default class Scene {
     
     this.loadImages(imagesArray).then((img) => {
       this.textureArray = img;
-      this.$image = img[this.indexStart];
+      this.$image = img[this.indexCurrent];
       this.init();
       this.material.uniforms.texture.value = this.$image;
     });
@@ -121,10 +120,17 @@ export default class Scene {
   }
 
   listeners() {
+    let that = this;
     let onMouseResize = window.addEventListener("resize", this.onWindowResize.bind(this), false);
     let onMouseDown = window.addEventListener("mousedown", this.onMouseDown.bind(this), false);
     let onMouseUp = window.addEventListener("mouseup", this.onMouseUp.bind(this), false);
-    let onMouseMove = window.addEventListener("mousemove", this.onMouseMove.bind(this), false);
+
+    mySwiper.on(
+      "slideChange", function() {
+          that.indexCurrent = this.activeIndex;
+          that.material.uniforms.texture.value = that.textureArray[this.activeIndex];
+      }
+    );
 
     /* MOBILE */
     //window.addEventListener("touchstart", this.onMouseDown.bind(this), false);
@@ -141,45 +147,16 @@ export default class Scene {
     if(ev.preventDefault) ev.preventDefault();
     ev.cancelBubble=true;
     ev.returnValue=false;
-    
-    this.isMouseDown = true;
-
-    this.clickStart = ev.y;
-    
+        
     return false;
   }
   
-  onMouseMove(ev) {
-    if(this.isMouseDown === true ) {
-      const step = 30;
-      let clickEnd = ev.y;
-      
-      let indexDistance = Math.abs((this.clickStart - clickEnd) / 5);
-      let index = Math.trunc(indexDistance / step);
-      console.log(index, this.indexStart);
-      if(indexDistance > step && index !== this.indexStart) {
-        this.indexStart = index;
-        this.material.uniforms.texture.value = this.textureArray[this.indexStart];
-      }
-      //this.indexStart = upAndDown;
-      // if(this.indexStart !== upAndDown) {
-
-
-      //   this.material.uniforms.texture.value = this.textureArray[upAndDown];
-      //   this.indexStart = upAndDown;
-
-      // }
-
-
-    }
-  }
 
   onMouseUp() {
     gsap.to(this.material.uniforms.progress, {
       duration: 0.4,
       value: 0
     });
-    this.isMouseDown = false;
   }
 
   onWindowResize() {
