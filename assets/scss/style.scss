@@ -10,12 +10,12 @@ $color1: #f3c499;
 body {
   margin: 0;
   padding: 0;
-  background: rgb(31, 31, 31);
-  background: linear-gradient(
-    0deg,
-    rgba(31, 31, 31, 1) 0%,
-    rgba(60, 60, 60, 1) 100%
-    );
+  // background: rgb(31, 31, 31);
+  // background: linear-gradient(
+  //   0deg,
+  //   rgba(31, 31, 31, 1) 0%,
+  //   rgba(60, 60, 60, 1) 100%
+  //   );
 }
 
 canvas, #scene-container  {
@@ -115,7 +115,8 @@ canvas, #scene-container  {
 */
 
 .main {
-  margin-top: 150px;
+  //margin-top: 150px;
+  max-height: 300px;
   color: #ffffff;  
 
   &__subtitle {
@@ -125,6 +126,21 @@ canvas, #scene-container  {
 
   &__subsection {
     margin: 50px 0;
+
+    &__btn {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 10px 20px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 10px;
+      font-family: $ffcom;
+
+      &:hover {
+        background-color: rgba(255,255,255,0.1);
+      }
+    }
   }
   
   &__title {
@@ -188,6 +204,7 @@ canvas, #scene-container  {
   border-radius: 50%;
   mix-blend-mode: difference;
   transition: transform 0.3s ease;
+  z-index: 100;
 }
 
 .hover-this {

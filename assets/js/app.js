@@ -84,7 +84,8 @@ export default class Scene {
       },
       vertexShader: vertex,
       fragmentShader: fragment,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      transparent: true
     });
     this.plane = new THREE.Mesh(geometry, this.material);
 
@@ -130,7 +131,16 @@ export default class Scene {
           that.indexCurrent = this.activeIndex;
           that.material.uniforms.texture.value = that.textureArray[this.activeIndex];
       }
-    );
+    )
+    mySwiper.on(
+      "touchEnd", function() {
+          that.indexCurrent = this.activeIndex;
+          that.material.uniforms.texture.value = that.textureArray[this.activeIndex];
+          this.slideTo(this.activeIndex);
+      }
+    )
+    //mySwiper.slideNext(2000);
+
 
     /* MOBILE */
     //window.addEventListener("touchstart", this.onMouseDown.bind(this), false);
