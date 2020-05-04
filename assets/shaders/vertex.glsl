@@ -18,7 +18,8 @@ float border(vec2 uv) {
 void main() {
     vUv = uv;
     vec3 newpos = position;
-    float dist = distance(vUv, vec2(0.5));
+    float dist = distance(vUv, vec2(0.5)) / length(vec2(0.5));
+
     float superProgree = min(2.*progress, 2.*(1.-progress));
 
     float zOffset = 2.;

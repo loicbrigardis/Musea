@@ -1,4 +1,4 @@
-#pragma glslify: snoise3 = require(glsl-noise/simplex/3d) 
+#pragma glslify: pnoise3 = require(glsl-noise/simplex/3d) 
 
 uniform sampler2D texture;
 uniform vec4 resolution;
@@ -15,7 +15,9 @@ void main() {
 
   tex += vCadre *0.05;
   float newtime = time * 0.05;
-  float alpha = 1.-((snoise3(vPosition+1.4 + newtime)*20.) * progress);
+  //Alpha channel
+  float alpha = 1.-( (pnoise3(vPosition + newtime*0.2)*6.) * progress ) ;
+  
 
   gl_FragColor = vec4(tex,alpha);
 }

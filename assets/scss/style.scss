@@ -10,12 +10,6 @@ $color1: #f3c499;
 body {
   margin: 0;
   padding: 0;
-  // background: rgb(31, 31, 31);
-  // background: linear-gradient(
-  //   0deg,
-  //   rgba(31, 31, 31, 1) 0%,
-  //   rgba(60, 60, 60, 1) 100%
-  //   );
 }
 
 canvas, #scene-container  {
@@ -48,6 +42,10 @@ canvas, #scene-container  {
 
   object-fit: cover;
   display: none;
+}
+
+.white {
+  color: white;
 }
 
 .subwrapper {
@@ -116,7 +114,7 @@ canvas, #scene-container  {
 
 .main {
   //margin-top: 150px;
-  max-height: 300px;
+  //max-height: 300px;
   color: #ffffff;  
 
   &__subtitle {
@@ -234,6 +232,7 @@ nav > .swiper-slide {
 nav > .swiper-slide-prev, nav > .swiper-slide-next  {
   opacity: 0.1;
   transition: all 100ms ease;
+  pointer-events: none;
 }
 
 nav > .swiper-slide-active {

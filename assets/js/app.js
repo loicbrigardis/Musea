@@ -5,7 +5,6 @@ import Orbit from './orbit';
 import Gui from "./gui";
 import vertex from "../shaders/vertex";
 import fragment from "../shaders/fragment";
-import mySwiper from './swiper';
 
 export default class Scene {
   constructor(imagesArray) {
@@ -47,8 +46,6 @@ export default class Scene {
       this.init();
       this.material.uniforms.texture.value = this.$image;
     });
-
-
   }
 
   init() {
@@ -56,6 +53,22 @@ export default class Scene {
     this.animate();
     this.onWindowResize();
     this.listeners();
+  }
+
+  setIndexCurrent(index) {
+    this.material.uniforms.texture.value = this.textureArray[index];
+  }
+
+  setMySwiper(swiper) {
+    const that = this;
+
+    swiper.slideTo(that.indexCurrent); 
+    swiper.on(
+      "slideChange", function() {
+        that.indexCurrent = this.activeIndex;
+        that.material.uniforms.texture.value = that.textureArray[this.activeIndex];
+      }
+    ); 
   }
 
   loadImages(imagesArray) {
@@ -90,7 +103,6 @@ export default class Scene {
     this.plane = new THREE.Mesh(geometry, this.material);
 
     this.scene.add(this.plane);
-
   }
 
   updateObjects() {
@@ -111,7 +123,6 @@ export default class Scene {
     this.material.uniforms.resolution.value.y = this.H;
     this.material.uniforms.resolution.value.z = a1;
     this.material.uniforms.resolution.value.w = a2;
-
   }
 
   animate() {
@@ -121,33 +132,18 @@ export default class Scene {
   }
 
   listeners() {
-    let that = this;
-    let onMouseResize = window.addEventListener("resize", this.onWindowResize.bind(this), false);
-    let onMouseDown = window.addEventListener("mousedown", this.onMouseDown.bind(this), false);
-    let onMouseUp = window.addEventListener("mouseup", this.onMouseUp.bind(this), false);
-
-    mySwiper.on(
-      "slideChange", function() {
-          that.indexCurrent = this.activeIndex;
-          that.material.uniforms.texture.value = that.textureArray[this.activeIndex];
-      }
-    )
-    mySwiper.on(
-      "touchEnd", function() {
-          that.indexCurrent = this.activeIndex;
-          that.material.uniforms.texture.value = that.textureArray[this.activeIndex];
-          this.slideTo(this.activeIndex);
-      }
-    )
-    //mySwiper.slideNext(2000);
-
-
+    window.addEventListener("resize", this.onWindowResize.bind(this), false);
+    window.addEventListener("mousedown", this.onMouseDown.bind(this), false);
+    window.addEventListener("mouseup", this.onMouseUp.bind(this), false);
+    
     /* MOBILE */
-    //window.addEventListener("touchstart", this.onMouseDown.bind(this), false);
-    //window.addEventListener("touchend", this.onMouseUp.bind(this), false);
+    window.addEventListener("touchstart", this.onMouseDown.bind(this), false);
+    window.addEventListener("touchend", this.onMouseUp.bind(this), false);
   }
-
+  
   onMouseDown(ev) {
+    if(ev.toElement.tagName === "A") return;
+
     gsap.to(this.material.uniforms.progress, {
       duration: 0.4,
       value: 1
@@ -183,4 +179,3 @@ export default class Scene {
   }
 }
 
-new Scene(document.querySelectorAll('.background__img'));

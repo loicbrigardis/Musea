@@ -1,19 +1,19 @@
 import Swiper from 'swiper';
-//import 'swiper/css/swiper.min.css';
 
-const mySwiper = new Swiper('.swiper-container', {
+export const parameters = {
     direction: 'vertical',
-    pagination: {
-        el: '.swiper-pagination',
-    },
-    height: 280,
+    height: 250,
     watchSlidesVisibility: true,
-    freeModeSticky: true,
+    centeredSlides: true,
+    shortSwipes: false,
+    longSwipes: false,
+    touchRatio: 0.9,
     keyboard: {
         enabled: true,
         onlyInViewport: false,
     },
-    resistanceRatio: 0.5
-});
+}
+
+const mySwiper = new Swiper('.swiper-container', parameters);
 
 export default mySwiper;
