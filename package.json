@@ -13,12 +13,12 @@
     "@barba/core": "^2.9.7",
     "@barba/router": "^2.1.10",
     "@dogstudio/highway": "^2.2.1",
-    "app": "^0.1.0",
     "dat.gui": "^0.7.6",
     "glsl-noise": "0.0.0",
     "gsap": "^3.2.6",
     "orbit-controls-es6": "^2.0.1",
     "parcel": "^1.12.4",
+    "split-text-js": "^1.0.3",
     "swiper": "^5.3.8",
     "three": "^0.113.2"
   },

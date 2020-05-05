@@ -56,19 +56,22 @@ export default class Scene {
   }
 
   setIndexCurrent(index) {
+    this.indexCurrent = index;
     this.material.uniforms.texture.value = this.textureArray[index];
   }
 
   setMySwiper(swiper) {
     const that = this;
-
-    swiper.slideTo(that.indexCurrent); 
-    swiper.on(
-      "slideChange", function() {
-        that.indexCurrent = this.activeIndex;
-        that.material.uniforms.texture.value = that.textureArray[this.activeIndex];
-      }
-    ); 
+    const url = new URL(window.location.href);
+    if(!url.pathname.includes('pages')) {
+      swiper.slideTo(that.indexCurrent); 
+      swiper.on(
+        "slideChange", function() {
+          that.indexCurrent = this.activeIndex;
+          that.material.uniforms.texture.value = that.textureArray[this.activeIndex];
+        }
+      ); 
+    }
   }
 
   loadImages(imagesArray) {
