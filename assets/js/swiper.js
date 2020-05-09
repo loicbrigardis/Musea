@@ -2,8 +2,6 @@ import Swiper from 'swiper';
 
 const sizeW = window.innerWidth;
 
-console.log(sizeW, sizeW < 690 ? 150 : 300);
-
 export const parameters = {
     direction: 'vertical',
     height: sizeW < 960 ? 200 : 300,

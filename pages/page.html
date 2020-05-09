@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Musea</title>
-  <link rel="stylesheet" href="../assets/scss/style.scss" />
+  <link rel="stylesheet" href="/assets/scss/style.scss" />
+  <script defer src="/assets/js/init.js"></script>
 </head>
 
 <body data-barba="wrapper">
@@ -34,6 +35,11 @@
           <a href="#" class="hover-this">Musea Shop</a>
         </li>
       </ul>
+    </header>
+    <header class="header-mobile">
+      <a href="#" class="header-mobile__link">
+        <svg viewBox="0 -53 384 384" xmlns="http://www.w3.org/2000/svg"><path d="m368 154.667969h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"/><path d="m368 32h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"/><path d="m368 277.332031h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"/></svg>
+      </a>
     </header>
 
     <!-- main -->
@@ -67,15 +73,14 @@
 
     <!-- background -->
     <section class="background">
-      <img src="../assets/img/photo1.jpg" alt="photo art" class="background__img">
-      <img src="../assets/img/photo2.jpg" alt="photo art" class="background__img">
-      <img src="../assets/img/photo3.jpg" alt="photo art" class="background__img">
+      <img src="/assets/img/photo1.jpg" alt="photo art" class="background__img">
+      <img src="/assets/img/photo2.jpg" alt="photo art" class="background__img">
+      <img src="/assets/img/photo3.jpg" alt="photo art" class="background__img">
     </section>
   </div>
   <div id="scene-container"></div>
   <span class="cursor"></span>
-
-  <script src="../assets/js/init.js"></script>
+  <div class="loading"><span class="loading-title">Musea</span><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
 </body>
 
 </html>

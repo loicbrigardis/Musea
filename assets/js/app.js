@@ -1,7 +1,5 @@
 import * as THREE from "three";
 import gsap from "gsap";
-
-import Orbit from './orbit';
 import vertex from "../shaders/vertex";
 import fragment from "../shaders/fragment";
 
@@ -23,26 +21,29 @@ export default class Scene {
     
     this.container = document.querySelector("#scene-container");
     this.container.appendChild(this.renderer.domElement);
+
+    this.cursor = document.querySelector('.cursor');
+    this.loading = document.querySelector('.loading');
     
     this.renderer.setSize(this.W, this.H);
-    
-    //this.controls = new Orbit(this.camera, this.renderer.domElement);
     this.clock = new THREE.Clock();
     
     this.indexCurrent = 0;
+    this.prevMouse = new THREE.Vector2(0,0);
+    this.speed = 0;
+    this.targetSpeed = 0;
     
     /**
      * Image from DOM
      */
-    
     this.loader = new THREE.TextureLoader();
     this.textureArray = [];
-    
-    this.loadImages(imagesArray).then((img) => {
+    Promise.all(this.loadImages(imagesArray)).then((img) => {
       this.textureArray = img;
       this.$image = img[this.indexCurrent];
       this.init();
       this.material.uniforms.texture.value = this.$image;
+      if(this.loading) this.loading.remove();
     });
   }
 
@@ -73,8 +74,8 @@ export default class Scene {
   }
 
   loadImages(imagesArray) {
-    return new Promise((resolve, reject) => {
-      const textureArray = [];
+    const textureArray = [];
+    new Promise((resolve, reject) => {
       imagesArray.forEach((image) => {
         const obj = this.loader.load(image.src);
         obj.src = image.src;
@@ -82,8 +83,8 @@ export default class Scene {
         obj.naturalHeight = image.naturalHeight || 1024;
         textureArray.push(obj);
       });
-      resolve(textureArray);
     });
+    return textureArray;
   }
 
   addObjects() {
@@ -95,6 +96,8 @@ export default class Scene {
         progress: { value: 0.0 },
         resolution: { value: new THREE.Vector4() },
         texture: { value: new THREE.DataTexture() },
+        mouse: { value: new THREE.Vector2(0,0) },
+        mousespeed: { value: 1.0 },
       },
       vertexShader: vertex,
       fragmentShader: fragment,
@@ -130,16 +133,33 @@ export default class Scene {
     requestAnimationFrame(this.animate.bind(this));
     this.renderer.render(this.scene, this.camera);
     this.material.uniforms.time.value = this.clock.getElapsedTime();
+
+    /* Mouse speed */
+    this.targetSpeed += 0.1*(this.speed - this.targetSpeed);
+    this.material.uniforms.mousespeed.value = this.targetSpeed;
   }
 
   listeners() {
     window.addEventListener("resize", this.onWindowResize.bind(this), false);
     window.addEventListener("mousedown", this.onMouseDown.bind(this), false);
     window.addEventListener("mouseup", this.onMouseUp.bind(this), false);
+    window.addEventListener("mousemove", this.onMouseMove.bind(this), false);
     
     /* MOBILE */
     window.addEventListener("touchstart", this.onMouseDown.bind(this), false);
     window.addEventListener("touchend", this.onMouseUp.bind(this), false);
+  }
+
+  onMouseMove(ev) {
+    this.material.uniforms.mouse.value.x = ev.clientX / this.W;
+    this.material.uniforms.mouse.value.y = 1 - (ev.clientY / this.H);
+
+    let movementX = Math.abs(ev.clientX - this.prevMouse.x);
+    let movementY = Math.abs(ev.clientY - this.prevMouse.y);
+    this.speed = Math.sqrt(movementX*movementX+movementY*movementY) * 0.01;
+    
+    this.prevMouse.x = ev.clientX;
+    this.prevMouse.y = ev.clientY;
   }
   
   onMouseDown(ev) {
@@ -156,6 +176,8 @@ export default class Scene {
       duration: 0.4,
       value: 1
     });
+
+    this.cursor.style.transform = "scale(2)";
         
     return false;
   }
@@ -166,6 +188,8 @@ export default class Scene {
       duration: 0.4,
       value: 0
     });
+
+    this.cursor.style.display = "none";
   }
 
   onWindowResize() {

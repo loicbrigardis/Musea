@@ -1,7 +1,3 @@
-# ThreeJs Shaders template
-
-Starter pack for threeJs Shaders.
-
 ## Installation
 
 ```bash
@@ -10,7 +6,7 @@ npm install
 
 ## Usage
 
-```python
+```bash
 npm run start
 ```
 
