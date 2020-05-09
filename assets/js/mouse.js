@@ -1,3 +1,5 @@
+
+/*
 const wrapper = document.querySelector('.wrapper');
 const link = document.querySelectorAll('.hover-this');
 const cursor = document.querySelector('.cursor');
@@ -8,8 +10,8 @@ const animateit = function (e, ev) {
     { offsetWidth: width, offsetHeight: height } = ev,
 
     move = 25,
-    xMove = x / width * (move * 2) - move,
-    yMove = y / height * (move * 2) - move;
+    xMove =( x / width) * (move * 2) - move,
+    yMove = (y / height) * (move * 2) - move;
 
     
     if(e.type === "mousemove") {
@@ -24,8 +26,18 @@ const animateit = function (e, ev) {
 
 const editCursor = e => {
     const { clientX: x, clientY: y } = e;
-    cursor.style.left = x + 'px';
-    cursor.style.top = y + 'px';
+    cursor.style.left = (x - 10) + 'px';
+    cursor.style.top = (y - 10) + 'px';
+    if(e.target.parentNode.classList.contains('swiper-container') 
+    || e.target.parentNode.classList.contains('swiper-wrapper') 
+    || e.target.parentNode.parentNode.classList.contains('swiper-wrapper')
+    || e.target.classList.contains('swiper-wrapper')
+    || e.target.classList.contains('swiper-container')
+    ) {
+        cursor.style.display = 'none';
+    } else {
+        cursor.style.display = 'block';
+    }
 };
 
 wrapper.addEventListener('mousemove', (ev) => {
@@ -39,3 +51,4 @@ wrapper.addEventListener('mouseout', (ev) => {
     }
 });
 document.addEventListener('mousemove', editCursor);
+*/

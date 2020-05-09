@@ -2,7 +2,6 @@ import * as THREE from "three";
 import gsap from "gsap";
 
 import Orbit from './orbit';
-import Gui from "./gui";
 import vertex from "../shaders/vertex";
 import fragment from "../shaders/fragment";
 
@@ -27,7 +26,6 @@ export default class Scene {
     
     this.renderer.setSize(this.W, this.H);
     
-    this.Gui = new Gui();
     //this.controls = new Orbit(this.camera, this.renderer.domElement);
     this.clock = new THREE.Clock();
     
@@ -145,17 +143,19 @@ export default class Scene {
   }
   
   onMouseDown(ev) {
-    if(ev.toElement.tagName === "A") return;
+    if(ev.type !== "touchstart") {
+      if(ev.toElement.tagName === "A") return;
+
+      if(ev.stopPropagation) ev.stopPropagation();
+      if(ev.preventDefault) ev.preventDefault();
+      ev.cancelBubble=true;
+      ev.returnValue=false;
+    }
 
     gsap.to(this.material.uniforms.progress, {
       duration: 0.4,
       value: 1
     });
-
-    if(ev.stopPropagation) ev.stopPropagation();
-    if(ev.preventDefault) ev.preventDefault();
-    ev.cancelBubble=true;
-    ev.returnValue=false;
         
     return false;
   }

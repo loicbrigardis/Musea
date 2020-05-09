@@ -1,8 +1,12 @@
 import Swiper from 'swiper';
 
+const sizeW = window.innerWidth;
+
+console.log(sizeW, sizeW < 690 ? 150 : 300);
+
 export const parameters = {
     direction: 'vertical',
-    height: 250,
+    height: sizeW < 960 ? 200 : 300,
     watchSlidesVisibility: true,
     centeredSlides: true,
     shortSwipes: false,
