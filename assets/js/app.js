@@ -62,7 +62,7 @@ export default class Scene {
   setMySwiper(swiper) {
     const that = this;
     const url = new URL(window.location.href);
-    if(!url.pathname.includes('pages')) {
+    if(!url.pathname.includes('page')) {
       swiper.slideTo(that.indexCurrent); 
       swiper.on(
         "slideChange", function() {
